@@ -212,16 +212,16 @@
             width: 0%;
         }
 
-        .blue-fill { 
-            background: linear-gradient(90deg, #3b82f6, #60a5fa); 
+        .blue-fill {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
         }
-        
-        .red-fill { 
-            background: linear-gradient(90deg, #ef4444, #f87171); 
+
+        .red-fill {
+            background: linear-gradient(90deg, #ef4444, #f87171);
         }
-        
-        .green-fill { 
-            background: linear-gradient(90deg, #10b981, #34d399); 
+
+        .green-fill {
+            background: linear-gradient(90deg, #10b981, #34d399);
         }
 
         .result-percentage {
@@ -252,17 +252,17 @@
 
         /* 드롭 애니메이션 */
         @keyframes dropAnimation {
-            0% { 
-                transform: scale(1) rotate(0deg); 
-                opacity: 1; 
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
             }
-            50% { 
-                transform: scale(0.8) rotate(180deg); 
-                opacity: 0.7; 
+            50% {
+                transform: scale(0.8) rotate(180deg);
+                opacity: 0.7;
             }
-            100% { 
-                transform: scale(0) rotate(360deg); 
-                opacity: 0; 
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
             }
         }
 
@@ -286,13 +286,13 @@
         }
 
         @keyframes slideInRight {
-            from { 
-                transform: translateX(100%); 
-                opacity: 0; 
+            from {
+                transform: translateX(100%);
+                opacity: 0;
             }
-            to { 
-                transform: translateX(0); 
-                opacity: 1; 
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
         }
 
@@ -310,25 +310,25 @@
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-            
+
             .boxes-container {
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
+
             .ballot-box {
                 min-width: 140px;
                 flex: 1;
                 max-width: 200px;
             }
-            
+
             .result-item {
                 flex-direction: column;
                 text-align: center;
                 gap: 0.5rem;
             }
-            
+
             .result-bar {
                 width: 100%;
                 max-width: 250px;
@@ -344,7 +344,7 @@
     <div class="container">
         <h1>🗳️ 드래그 앤 드롭 투표 시스템</h1>
         <p class="description">투표용지를 드래그해서 원하는 투표함에 넣어주세요!</p>
-        
+
         <div class="voting-area">
             <!-- 투표용지들 -->
             <div class="ballot-papers">
@@ -485,7 +485,7 @@
 
         function handleDragStart(e) {
             const ballotId = this.getAttribute('data-ballot-id');
-            
+
             if (votingData.votedBallots.has(ballotId)) {
                 e.preventDefault();
                 showNotification('이미 투표가 완료된 투표용지입니다!');
@@ -551,10 +551,10 @@
         }
 
         function getBoxName(boxType) {
-            const names = { 
-                blue: '파란색', 
-                red: '빨간색', 
-                green: '초록색' 
+            const names = {
+                blue: '파란색',
+                red: '빨간색',
+                green: '초록색'
             };
             return names[boxType] || '알 수 없는 색';
         }
@@ -621,7 +621,7 @@
             notification.className = 'notification';
             notification.textContent = message;
             document.body.appendChild(notification);
-            
+
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.remove();
