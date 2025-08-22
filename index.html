@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyHome - 개인 홈페이지</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="hero">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>MyHome</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link">소개</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#projects" class="nav-link">프로젝트</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link">연락</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">안녕하세요!</h1>
+                <p class="hero-subtitle">저의 개인 웹사이트에 오신 것을 환영합니다</p>
+                <button class="cta-button" onclick="scrollToSection('about')">더 알아보기</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">소개</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>개발과 새로운 기술에 관심이 많은 사람입니다. 이 사이트는 GitHub Pages를 사용한 프로토타입입니다.</p>
+                        <div class="skills">
+                            <div class="skill-item">HTML/CSS</div>
+                            <div class="skill-item">JavaScript</div>
+                            <div class="skill-item">React</div>
+                            <div class="skill-item">Node.js</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title">프로젝트</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>프로젝트 1</h3>
+                        <p>프로젝트 설명이 들어갑니다.</p>
+                        <a href="#" class="project-link">자세히 보기</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>프로젝트 2</h3>
+                        <p>프로젝트 설명이 들어갑니다.</p>
+                        <a href="#" class="project-link">자세히 보기</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>프로젝트 3</h3>
+                        <p>프로젝트 설명이 들어갑니다.</p>
+                        <a href="#" class="project-link">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">연락하기</h2>
+                <div class="contact-content">
+                    <p>궁금한 점이 있으시면 언제든 연락주세요!</p>
+                    <div class="contact-links">
+                        <a href="mailto:your.email@example.com" class="contact-link">
+                            <span>📧</span> 이메일
+                        </a>
+                        <a href="https://github.com" class="contact-link">
+                            <span>💻</span> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 MyHome. GitHub Pages로 제작되었습니다.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
