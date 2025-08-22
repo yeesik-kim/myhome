@@ -237,3 +237,274 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// =================================
+// VOTING SYSTEM FUNCTIONALITY
+// =================================
+
+// 투표 데이터 저장 키
+const VOTING_DATA_KEY = 'myhome_voting_data';
+
+// 투표 상태 관리
+let votingData = {
+    votes: {
+        blue: 0,
+        red: 0,
+        green: 0
+    },
+    votedBallots: new Set() // 투표 완료된 투표용지 ID들
+};
+
+// 페이지 로드 시 투표 시스템 초기화
+document.addEventListener('DOMContentLoaded', function() {
+    loadVotingData();
+    initializeVotingSystem();
+    updateVotingResults();
+});
+
+// 로컬 스토리지에서 투표 데이터 불러오기
+function loadVotingData() {
+    const saved = localStorage.getItem(VOTING_DATA_KEY);
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            votingData.votes = parsed.votes || { blue: 0, red: 0, green: 0 };
+            votingData.votedBallots = new Set(parsed.votedBallots || []);
+        } catch (e) {
+            console.error('투표 데이터 로드 실패:', e);
+        }
+    }
+}
+
+// 투표 데이터를 로컬 스토리지에 저장
+function saveVotingData() {
+    const dataToSave = {
+        votes: votingData.votes,
+        votedBallots: Array.from(votingData.votedBallots)
+    };
+    localStorage.setItem(VOTING_DATA_KEY, JSON.stringify(dataToSave));
+}
+
+// 투표 시스템 초기화
+function initializeVotingSystem() {
+    const ballotPapers = document.querySelectorAll('.ballot-paper');
+    const ballotBoxes = document.querySelectorAll('.ballot-box');
+
+    // 투표 완료된 투표용지 상태 복원
+    ballotPapers.forEach(paper => {
+        const ballotId = paper.getAttribute('data-ballot-id');
+        if (votingData.votedBallots.has(ballotId)) {
+            markBallotAsVoted(paper);
+        }
+    });
+
+    // 드래그 이벤트 설정
+    ballotPapers.forEach(paper => {
+        paper.addEventListener('dragstart', handleDragStart);
+        paper.addEventListener('dragend', handleDragEnd);
+    });
+
+    // 드롭 이벤트 설정
+    ballotBoxes.forEach(box => {
+        box.addEventListener('dragover', handleDragOver);
+        box.addEventListener('dragenter', handleDragEnter);
+        box.addEventListener('dragleave', handleDragLeave);
+        box.addEventListener('drop', handleDrop);
+    });
+
+    // 투표 수 표시 업데이트
+    updateVoteCounts();
+}
+
+// 드래그 시작
+function handleDragStart(e) {
+    const ballotId = this.getAttribute('data-ballot-id');
+
+    // 이미 투표한 투표용지는 드래그 불가
+    if (votingData.votedBallots.has(ballotId)) {
+        e.preventDefault();
+        showNotification('이미 투표가 완료된 투표용지입니다!');
+        return;
+    }
+
+    this.classList.add('dragging');
+    e.dataTransfer.setData('text/plain', ballotId);
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+// 드래그 종료
+function handleDragEnd(e) {
+    this.classList.remove('dragging');
+}
+
+// 드래그 오버 (드롭 허용)
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+}
+
+// 드래그 진입
+function handleDragEnter(e) {
+    e.preventDefault();
+    this.classList.add('drag-over');
+}
+
+// 드래그 떠남
+function handleDragLeave(e) {
+    // 자식 요소로 이동하는 경우 무시
+    if (!this.contains(e.relatedTarget)) {
+        this.classList.remove('drag-over');
+    }
+}
+
+// 드롭 처리
+function handleDrop(e) {
+    e.preventDefault();
+    this.classList.remove('drag-over');
+
+    const ballotId = e.dataTransfer.getData('text/plain');
+    const boxType = this.getAttribute('data-box-type');
+    const ballotPaper = document.querySelector(`[data-ballot-id="${ballotId}"]`);
+
+    if (ballotPaper && boxType) {
+        // 투표 처리
+        processVote(ballotId, boxType, ballotPaper);
+    }
+}
+
+// 투표 처리
+function processVote(ballotId, boxType, ballotPaper) {
+    // 이미 투표한 경우 체크
+    if (votingData.votedBallots.has(ballotId)) {
+        showNotification('이미 투표가 완료된 투표용지입니다!');
+        return;
+    }
+
+    // 드롭 애니메이션 실행
+    ballotPaper.classList.add('dropping');
+
+    // 애니메이션 완료 후 처리
+    setTimeout(() => {
+        // 투표 데이터 업데이트
+        votingData.votes[boxType]++;
+        votingData.votedBallots.add(ballotId);
+
+        // 투표용지 상태 변경
+        markBallotAsVoted(ballotPaper);
+
+        // 데이터 저장
+        saveVotingData();
+
+        // UI 업데이트
+        updateVoteCounts();
+        updateVotingResults();
+
+        // 성공 알림
+        showNotification(`투표가 완료되었습니다! (${getBoxName(boxType)})`);
+
+        // 드롭 애니메이션 클래스 제거
+        ballotPaper.classList.remove('dropping');
+    }, 600);
+}
+
+// 투표함 이름 가져오기
+function getBoxName(boxType) {
+    const names = {
+        blue: '파란색 투표함',
+        red: '빨간색 투표함',
+        green: '초록색 투표함'
+    };
+    return names[boxType] || '알 수 없는 투표함';
+}
+
+// 투표용지를 투표완료 상태로 마킹
+function markBallotAsVoted(ballotPaper) {
+    ballotPaper.classList.add('voted');
+    ballotPaper.draggable = false;
+    ballotPaper.setAttribute('title', '투표 완료');
+}
+
+// 투표 수 업데이트
+function updateVoteCounts() {
+    Object.keys(votingData.votes).forEach(boxType => {
+        const box = document.querySelector(`[data-box-type="${boxType}"]`);
+        if (box) {
+            const countSpan = box.querySelector('.vote-count span');
+            if (countSpan) {
+                countSpan.textContent = votingData.votes[boxType];
+            }
+        }
+    });
+}
+
+// 투표 결과 차트 업데이트
+function updateVotingResults() {
+    const totalVotes = Object.values(votingData.votes).reduce((sum, count) => sum + count, 0);
+
+    Object.keys(votingData.votes).forEach(boxType => {
+        const count = votingData.votes[boxType];
+        const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+
+        // 결과 바 업데이트
+        const resultFill = document.querySelector(`[data-result="${boxType}"]`);
+        if (resultFill) {
+            resultFill.style.width = `${percentage}%`;
+        }
+
+        // 퍼센티지 텍스트 업데이트
+        const resultItem = resultFill?.closest('.result-item');
+        if (resultItem) {
+            const percentageSpan = resultItem.querySelector('.result-percentage');
+            if (percentageSpan) {
+                percentageSpan.textContent = `${percentage}%`;
+            }
+        }
+    });
+}
+
+// 모든 투표 초기화
+function resetAllVotes() {
+    if (confirm('모든 투표를 초기화하시겠습니까?')) {
+        // 데이터 초기화
+        votingData.votes = { blue: 0, red: 0, green: 0 };
+        votingData.votedBallots.clear();
+
+        // 투표용지 상태 복원
+        const ballotPapers = document.querySelectorAll('.ballot-paper');
+        ballotPapers.forEach(paper => {
+            paper.classList.remove('voted', 'dropping');
+            paper.draggable = true;
+            paper.removeAttribute('title');
+        });
+
+        // 데이터 저장
+        saveVotingData();
+
+        // UI 업데이트
+        updateVoteCounts();
+        updateVotingResults();
+
+        showNotification('모든 투표가 초기화되었습니다!');
+    }
+}
+
+// 투표 통계 정보 표시
+function showVotingStats() {
+    const totalVotes = Object.values(votingData.votes).reduce((sum, count) => sum + count, 0);
+    const completedBallots = votingData.votedBallots.size;
+    const totalBallots = document.querySelectorAll('.ballot-paper').length;
+
+    console.log('=== 투표 통계 ===');
+    console.log(`총 투표 수: ${totalVotes}`);
+    console.log(`완료된 투표용지: ${completedBallots}/${totalBallots}`);
+    console.log(`파란색: ${votingData.votes.blue}표`);
+    console.log(`빨간색: ${votingData.votes.red}표`);
+    console.log(`초록색: ${votingData.votes.green}표`);
+}
+
+// 개발자 도구용 함수들을 전역에 노출
+window.votingSystem = {
+    showStats: showVotingStats,
+    resetVotes: resetAllVotes,
+    getData: () => votingData
+};

@@ -25,6 +25,9 @@
                         <a href="#projects" class="nav-link">프로젝트</a>
                     </li>
                     <li class="nav-item">
+                        <a href="#voting" class="nav-link">투표</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#contact" class="nav-link">연락</a>
                     </li>
                 </ul>
@@ -81,6 +84,93 @@
                         <h3>프로젝트 3</h3>
                         <p>프로젝트 설명이 들어갑니다.</p>
                         <a href="#" class="project-link">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="voting" class="section voting-section">
+            <div class="container">
+                <h2 class="section-title">투표 시스템 데모</h2>
+                <div class="voting-content">
+                    <p class="voting-description">투표용지를 드래그해서 원하는 투표함에 넣어주세요!</p>
+
+                    <div class="voting-area">
+                        <!-- 투표용지들 -->
+                        <div class="ballot-papers">
+                            <h3>투표용지</h3>
+                            <div class="ballot-container">
+                                <div class="ballot-paper" draggable="true" data-ballot-id="1">
+                                    <div class="ballot-header">투표용지 #1</div>
+                                    <div class="ballot-content">
+                                        <p>좋아하는 색깔을 선택하세요</p>
+                                    </div>
+                                </div>
+                                <div class="ballot-paper" draggable="true" data-ballot-id="2">
+                                    <div class="ballot-header">투표용지 #2</div>
+                                    <div class="ballot-content">
+                                        <p>선호하는 프로그래밍 언어는?</p>
+                                    </div>
+                                </div>
+                                <div class="ballot-paper" draggable="true" data-ballot-id="3">
+                                    <div class="ballot-header">투표용지 #3</div>
+                                    <div class="ballot-content">
+                                        <p>최고의 프레임워크는?</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 투표함들 -->
+                        <div class="ballot-boxes">
+                            <h3>투표함</h3>
+                            <div class="boxes-container">
+                                <div class="ballot-box" data-box-type="blue">
+                                    <div class="box-header">🔵 파란색 투표함</div>
+                                    <div class="box-slot"></div>
+                                    <div class="vote-count">투표수: <span>0</span></div>
+                                </div>
+                                <div class="ballot-box" data-box-type="red">
+                                    <div class="box-header">🔴 빨간색 투표함</div>
+                                    <div class="box-slot"></div>
+                                    <div class="vote-count">투표수: <span>0</span></div>
+                                </div>
+                                <div class="ballot-box" data-box-type="green">
+                                    <div class="box-header">🟢 초록색 투표함</div>
+                                    <div class="box-slot"></div>
+                                    <div class="vote-count">투표수: <span>0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 투표 결과 -->
+                    <div class="voting-results">
+                        <h3>투표 결과</h3>
+                        <div class="results-container">
+                            <div class="result-item">
+                                <span class="result-label">🔵 파란색</span>
+                                <div class="result-bar">
+                                    <div class="result-fill blue-fill" data-result="blue"></div>
+                                </div>
+                                <span class="result-percentage">0%</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">🔴 빨간색</span>
+                                <div class="result-bar">
+                                    <div class="result-fill red-fill" data-result="red"></div>
+                                </div>
+                                <span class="result-percentage">0%</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">🟢 초록색</span>
+                                <div class="result-bar">
+                                    <div class="result-fill green-fill" data-result="green"></div>
+                                </div>
+                                <span class="result-percentage">0%</span>
+                            </div>
+                        </div>
+                        <button class="reset-votes-btn" onclick="resetAllVotes()">투표 초기화</button>
                     </div>
                 </div>
             </div>
