@@ -10,8 +10,11 @@ GitHub Pages로 배포된 인터랙티브한 투표 시스템입니다. 투표�
 
 ```
 myhome/
-├── index.html      # 모든 기능이 통합된 단일 HTML 파일
-└── README.md       # 프로젝트 설명
+├── index.html          # 메인 HTML 구조
+├── styles.css          # CSS 스타일시트 
+├── script.js           # JavaScript 로직 (Firebase 연동 포함)
+├── firebase-setup.md   # Firebase 설정 가이드
+└── README.md           # 프로젝트 설명
 ```
 
 ## ✨ 주요 기능
@@ -21,15 +24,18 @@ myhome/
 - 실시간 시각적 피드백 (드래그 시 회전, 투표함 하이라이트)
 - 부드러운 드롭 애니메이션 효과
 
-### 💾 **상태 저장 시스템**
-- `localStorage`를 사용한 투표 결과 영구 저장
+### 💾 **이중 저장 시스템**
+- **Firebase**: 실시간 서버 동기화 (모든 사용자 공유)
+- **localStorage**: 로컬 백업 (Firebase 연결 실패 시)
 - 페이지 새로고침 후에도 투표 상태 유지
 - 투표 완료된 투표용지는 재투표 불가
 
-### 📊 **실시간 결과 표시**
-- 투표할 때마다 실시간 카운트 업데이트
+### 📊 **실시간 동기화 결과**
+- **다중 사용자 실시간 동기화** (Firebase 연결 시)
+- 투표할 때마다 모든 사용자에게 즉시 반영
 - 시각적 결과 차트 (퍼센티지 바)
 - 각 투표함별 투표 수 표시
+- 연결 상태 표시 (서버/로컬)
 
 ### 🔒 **투표 완료 상태 관리**
 - 투표 완료 시 "✓ 투표완료" 마킹
@@ -65,13 +71,29 @@ git commit -m "투표 시스템 업데이트"
 git push origin main
 ```
 
+## 🚀 Firebase 서버 연동
+
+### 실시간 동기화 기능
+- 모든 사용자가 같은 투표 결과를 실시간으로 확인
+- 다중 사용자 환경에서 동시 투표 가능
+- 브라우저/기기 변경 시에도 투표 결과 유지
+
+### 설정 방법
+자세한 Firebase 설정은 [`firebase-setup.md`](firebase-setup.md) 참조
+
+1. [Firebase Console](https://console.firebase.google.com)에서 프로젝트 생성
+2. Realtime Database 활성화
+3. 웹 앱 등록 및 설정 정보 복사
+4. `script.js`의 `firebaseConfig` 수정
+
 ## 💻 기술 스택
 
-- **HTML5**: 시맨틱 마크업
-- **CSS3**: 플렉스박스, 그리드, 애니메이션
-- **JavaScript**: 드래그 앤 드롭 API, localStorage
-- **GitHub Pages**: 자동 배포
+- **HTML5**: 시맨틱 마크업 및 드래그 앤 드롭 API
+- **CSS3**: 플렉스박스, 그리드, 애니메이션, 반응형 디자인
+- **JavaScript**: ES6+ 모듈, 비동기 처리, localStorage
+- **Firebase**: Realtime Database를 통한 실시간 동기화
+- **GitHub Pages**: 정적 사이트 자동 배포
 
 ---
 
-💡 **Note**: 모든 코드가 단일 HTML 파일에 인라인으로 작성되어 GitHub Pages에서 별도 설정 없이 바로 동작합니다.
+💡 **Note**: Firebase 설정 없이도 localStorage로 로컬 저장은 정상 동작합니다. Firebase 연결 시 서버 저장으로 자동 업그레이드됩니다.
