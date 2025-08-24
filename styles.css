@@ -204,16 +204,16 @@ h1 {
     width: 0%;
 }
 
-.blue-fill { 
-    background: linear-gradient(90deg, #3b82f6, #60a5fa); 
+.blue-fill {
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
 }
 
-.red-fill { 
-    background: linear-gradient(90deg, #ef4444, #f87171); 
+.red-fill {
+    background: linear-gradient(90deg, #ef4444, #f87171);
 }
 
-.green-fill { 
-    background: linear-gradient(90deg, #10b981, #34d399); 
+.green-fill {
+    background: linear-gradient(90deg, #10b981, #34d399);
 }
 
 .result-percentage {
@@ -244,17 +244,17 @@ h1 {
 
 /* 드롭 애니메이션 */
 @keyframes dropAnimation {
-    0% { 
-        transform: scale(1) rotate(0deg); 
-        opacity: 1; 
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
     }
-    50% { 
-        transform: scale(0.8) rotate(180deg); 
-        opacity: 0.7; 
+    50% {
+        transform: scale(0.8) rotate(180deg);
+        opacity: 0.7;
     }
-    100% { 
-        transform: scale(0) rotate(360deg); 
-        opacity: 0; 
+    100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
     }
 }
 
@@ -282,13 +282,13 @@ h1 {
 }
 
 @keyframes slideInRight {
-    from { 
-        transform: translateX(100%); 
-        opacity: 0; 
+    from {
+        transform: translateX(100%);
+        opacity: 0;
     }
-    to { 
-        transform: translateX(0); 
-        opacity: 1; 
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }
 
@@ -343,25 +343,25 @@ h1 {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .boxes-container {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
     }
-    
+
     .ballot-box {
         min-width: 140px;
         flex: 1;
         max-width: 200px;
     }
-    
+
     .result-item {
         flex-direction: column;
         text-align: center;
         gap: 0.5rem;
     }
-    
+
     .result-bar {
         width: 100%;
         max-width: 250px;

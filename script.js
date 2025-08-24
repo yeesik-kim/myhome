@@ -40,15 +40,15 @@ async function initializeFirebase() {
         // Firebase SDK 로드 및 초기화
         const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
         const { getDatabase, ref, onValue, set, push } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-        
+
         const app = initializeApp(firebaseConfig);
         db = getDatabase(app);
         isFirebaseConnected = true;
-        
+
         // 실시간 데이터 동기화
         setupRealtimeSync();
         updateConnectionStatus(true);
-        
+
         console.log('Firebase 연결 성공!');
     } catch (error) {
         console.error('Firebase 연결 실패:', error);
@@ -149,7 +149,7 @@ function initializeVotingSystem() {
 // 드래그 시작
 function handleDragStart(e) {
     const ballotId = this.getAttribute('data-ballot-id');
-    
+
     if (votingData.votedBallots.has(ballotId)) {
         e.preventDefault();
         showNotification('이미 투표가 완료된 투표용지입니다!', 'error');
@@ -221,7 +221,7 @@ async function processVote(ballotId, boxType, ballotPaper) {
         if (isFirebaseConnected) {
             saved = await saveToFirebase();
         }
-        
+
         if (!saved) {
             saveLocalVotingData();
         }
@@ -244,10 +244,10 @@ async function processVote(ballotId, boxType, ballotPaper) {
 
 // 투표함 이름 가져오기
 function getBoxName(boxType) {
-    const names = { 
-        blue: '파란색', 
-        red: '빨간색', 
-        green: '초록색' 
+    const names = {
+        blue: '파란색',
+        red: '빨간색',
+        green: '초록색'
     };
     return names[boxType] || '알 수 없는 색';
 }
@@ -316,7 +316,7 @@ async function resetAllVotes() {
     if (isFirebaseConnected) {
         saved = await saveToFirebase();
     }
-    
+
     if (!saved) {
         saveLocalVotingData();
     }
@@ -337,7 +337,7 @@ function showNotification(message, type = 'success') {
     notification.className = `notification ${type}`;
     notification.textContent = message;
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         if (notification.parentNode) {
             notification.remove();
@@ -354,7 +354,7 @@ function showConnectionStatus() {
         <span class="status-text">연결 확인 중...</span>
     `;
     document.body.appendChild(statusElement);
-    
+
     // 전역 참조 저장
     window.connectionStatus = statusElement;
 }

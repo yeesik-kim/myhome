@@ -11,7 +11,7 @@ GitHub Pages로 배포된 인터랙티브한 투표 시스템입니다. 투표�
 ```
 myhome/
 ├── index.html          # 메인 HTML 구조
-├── styles.css          # CSS 스타일시트 
+├── styles.css          # CSS 스타일시트
 ├── script.js           # JavaScript 로직 (Firebase 연동 포함)
 ├── firebase-setup.md   # Firebase 설정 가이드
 └── README.md           # 프로젝트 설명
